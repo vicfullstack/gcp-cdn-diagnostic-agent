@@ -1,0 +1,4 @@
+google-cloud-logging
+google-api-python-client
+requests
+google-auth

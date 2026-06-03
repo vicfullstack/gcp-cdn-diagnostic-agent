@@ -1,0 +1,7 @@
+google-adk==1.28.0
+google-genai==1.69.0
+google-cloud-logging
+google-api-python-client
+requests
+google-auth
+pydantic
