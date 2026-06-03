@@ -73,6 +73,7 @@ def initialize_environment():
     # 默认设置区域为 'global'，适用于 Vertex AI 的全球模型访问端点
     region = os.environ.get("GEMINI_REGION", "global")
     os.environ["GEMINI_REGION"] = region
+    os.environ["GOOGLE_CLOUD_LOCATION"] = region
 
     # 启用 Vertex AI 选项
     os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "TRUE"
