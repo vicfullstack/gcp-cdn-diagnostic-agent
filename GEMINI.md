@@ -42,7 +42,7 @@ For sensitive or destructive execution actions (such as flushing a CDN cache, de
 * The execution agent enforces HITL on `invalidate_cdn_cache`, `update_backend_service_cdn_config`, `delete_global_forwarding_rule`, `update_url_map_redirect`, and `update_backend_bucket_cdn_config`.
 
 ### Flexible Multi-Project Diagnostic Capability
-Rather than hardcoding a single project name, the agent supports querying resources across any project (e.g., `"vic-cicd"` or `"vicdemo"`):
+Rather than hardcoding a single project name, the agent supports querying resources across any project (e.g., `"your-gcp-project-b"` or `"your-default-gcp-project-id"`):
 * **Logic**: The system instructions prompt the agent to detect project IDs from the user query. If present, the agent overrides the default and passes the specified project ID to the tools.
 * **Default Fallback**: If no project is specified, the agent falls back to the default project ID configured via the environment variable `GOOGLE_CLOUD_PROJECT`.
 

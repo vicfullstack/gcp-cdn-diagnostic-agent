@@ -39,7 +39,7 @@ graph TD
 
 ## 2. 核心功能与技术亮点
 
-* **动态多项目诊断能力**：不仅支持通过环境变量配置默认的 GCP 项目，还支持从用户自然语言中提取目标项目名称（例如 `"how about in project vic-cicd?"`），并在智能体流转中动态透传，一站式排查跨项目资源。
+* **动态多项目诊断能力**：不仅支持通过环境变量配置默认的 GCP 项目，还支持从用户自然语言中提取目标项目名称（例如 `"how about in project your-gcp-project-b?"`），并在智能体流转中动态透传，一站式排查跨项目资源。
 * **时序智能校准**：日志专家支持将自然语言的相对时间段（如 “过去3天”、“昨天”）通过 `get_current_time` 工具自动锚定到 UTC 绝对 ISO 8601 时间格式，彻底解决大模型在时序计算上的短板。
 * **人工介入确认 (Human-in-the-Loop, HITL)**：凡是涉及写操作、缓存清空或删除资源等敏感工具，均在 `FunctionTool` 声明中启用了 `require_confirmation=True`。在 ADK UI/CLI 运行时会暂停并强制请求人工确认，以防误删或破坏性配置上线。
 * **工具确认框架补丁 (Bug Fix)**：重构了 ADK 内置的确认解析函数 `rc._parse_tool_confirmation`。支持处理前端 UI 抛出的文本响应（如 "yes", "Approve", "cancel"），避免原生 ADK 在解析非标准 JSON 原始响应时抛出 `JSONDecodeError` 崩溃。
@@ -102,22 +102,22 @@ python3 agent.py
   > (拉取当前默认项目下的所有负载均衡器并过滤出 CDN 启用/禁用的后端列表)
 
 * **切换目标 GCP 项目** (测试跨项目动态路由)
-  > *"how about in project vic-cicd?"*
-  > (主协调智能体会动态提取出 `vic-cicd` 项目 ID，并通知子专家切换目标资源组进行查询)
+  > *"how about in project your-gcp-project-b?"*
+  > (主协调智能体会动态提取出 `your-gcp-project-b` 项目 ID，并通知子专家切换目标资源组进行查询)
 
 * **访问日志分析与相对时间锚定** (触发 `log_analysis_agent` 的时间推算及查询)
   > *"analyze cloud logging for domain mycdn.example.com during the past 24 hours"*
   > (日志专家会先获取当前 UTC 时间，并在后台推算绝对时间区间后，查询分析状态码分布与错误采样)
 
 * **开启特定 Backend Service 的 CDN 配置** (触发 `execution_agent` 改写操作与人工确认)
-  > *"enable CDN for backend service sg-intl-neg"*
+  > *"enable CDN for backend service your-backend-service-a"*
   > (系统识别为敏感配置修改，将在界面或命令行中挂起并等待您输入 'yes' 授权后执行)
 
 * **关闭特定 Backend Service 的 CDN 配置** (触发 `execution_agent` 改写操作与人工确认)
-  > *"disable CDN for backend service nginx-uig-hk-managed"*
+  > *"disable CDN for backend service your-backend-service-b"*
 
 * **清空/刷新 CDN 页面缓存** (触发 `execution_agent` 缓存清理与人工确认)
-  > *"invalidate cache for url map ai4d-pocket-https-lb with path /*"*
+  > *"invalidate cache for url map your-url-map-name with path /*"*
   > (将提交一个异步的 Cache Invalidation 请求，同样需要获得您的授权批准后方可下发任务)
 
 ---
