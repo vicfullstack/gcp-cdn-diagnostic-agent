@@ -93,6 +93,33 @@ python3 agent.py
 ```
 这将在控制台中拉起多智能体并在初始化环境验证后输出绑定的工具信息。
 
+### 常用测试与交互指令示例 (Common Query Examples)
+
+在 Dev UI 聊天界面或 CLI 中，您可以输入以下指令来测试智能体的多智能体流转、时间自动校准和二次确认机制：
+
+* **查询 CDN 服务列表** (触发 `get_cdn_agent` 对配置进行扫描)
+  > *"What cdn services do I have?"*
+  > (拉取当前默认项目下的所有负载均衡器并过滤出 CDN 启用/禁用的后端列表)
+
+* **切换目标 GCP 项目** (测试跨项目动态路由)
+  > *"how about in project vic-cicd?"*
+  > (主协调智能体会动态提取出 `vic-cicd` 项目 ID，并通知子专家切换目标资源组进行查询)
+
+* **访问日志分析与相对时间锚定** (触发 `log_analysis_agent` 的时间推算及查询)
+  > *"analyze cloud logging for domain mycdn.example.com during the past 24 hours"*
+  > (日志专家会先获取当前 UTC 时间，并在后台推算绝对时间区间后，查询分析状态码分布与错误采样)
+
+* **开启特定 Backend Service 的 CDN 配置** (触发 `execution_agent` 改写操作与人工确认)
+  > *"enable CDN for backend service sg-intl-neg"*
+  > (系统识别为敏感配置修改，将在界面或命令行中挂起并等待您输入 'yes' 授权后执行)
+
+* **关闭特定 Backend Service 的 CDN 配置** (触发 `execution_agent` 改写操作与人工确认)
+  > *"disable CDN for backend service nginx-uig-hk-managed"*
+
+* **清空/刷新 CDN 页面缓存** (触发 `execution_agent` 缓存清理与人工确认)
+  > *"invalidate cache for url map ai4d-pocket-https-lb with path /*"*
+  > (将提交一个异步的 Cache Invalidation 请求，同样需要获得您的授权批准后方可下发任务)
+
 ---
 
 ## 5. 项目结构说明
