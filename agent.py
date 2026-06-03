@@ -182,7 +182,7 @@ def create_multi_agent_system():
     get_cdn_agent = LlmAgent(
         name="get_cdn_agent",
         description="Retrieves URL Maps, Backend Buckets, and CDN Policies configuration.",
-        model="gemini-2.5-flash",
+        model="gemini-3.5-flash",
         instruction=get_cdn_instruction,
         tools=[
             FunctionTool(func=list_load_balancers),
@@ -197,7 +197,7 @@ def create_multi_agent_system():
     log_analysis_agent = LlmAgent(
         name="log_analysis_agent",
         description="Queries and analyzes Google Cloud Logging metrics and error distributions.",
-        model="gemini-2.5-flash",
+        model="gemini-3.5-flash",
         instruction=log_analysis_instruction,
         tools=[
             FunctionTool(func=analyze_cloud_logging),
@@ -209,7 +209,7 @@ def create_multi_agent_system():
     troubleshooting_agent = LlmAgent(
         name="troubleshooting_agent",
         description="Simulates HTTP requests and isolates root cause at the Origin or CDN level.",
-        model="gemini-2.5-flash",
+        model="gemini-3.5-flash",
         instruction=troubleshooting_instruction,
         tools=[
             FunctionTool(func=simulate_http_request)
@@ -220,7 +220,7 @@ def create_multi_agent_system():
     execution_agent = LlmAgent(
         name="execution_agent",
         description="Executes cache management and CDN configuration operations.",
-        model="gemini-2.5-flash",
+        model="gemini-3.5-flash",
         instruction=execution_instruction,
         tools=[
             FunctionTool(func=invalidate_cdn_cache, require_confirmation=True), # 刷新 CDN 缓存 (需要二次确认)
@@ -235,7 +235,7 @@ def create_multi_agent_system():
     coordinator_agent = LlmAgent(
         name="coordinator_agent",
         description="Primary interface orchestrating the CDN AI Diagnostic Team.",
-        model="gemini-2.5-flash",
+        model="gemini-3.5-flash",
         instruction=coordinator_instruction,
         tools=[
             FunctionTool(func=get_current_time)
