@@ -53,25 +53,28 @@ logger = logging.getLogger(__name__)
 def initialize_environment():
     project_id = os.environ.get("GOOGLE_CLOUD_PROJECT")
     if not project_id:
-        project_id = input("Enter Google Cloud Project ID: ").strip()
+        try:
+            project_id = input("Enter Google Cloud Project ID: ").strip()
+        except EOFError:
+            project_id = ""
         if not project_id:
             raise ValueError("Google Cloud Project ID is required.")
         os.environ["GOOGLE_CLOUD_PROJECT"] = project_id
 
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
-        api_key = input("Enter Gemini API Key (press Enter to skip if using Vertex AI / ADC): ").strip()
+        try:
+            api_key = input("Enter Gemini API Key (press Enter to skip if using Vertex AI / ADC): ").strip()
+        except EOFError:
+            api_key = ""
         if api_key:
             os.environ["GEMINI_API_KEY"] = api_key
 
-    region = os.environ.get("GEMINI_REGION")
-    if not region:
-        region = input("Enter Gemini/Vertex Region [global]: ").strip()
-        if not region:
-            region = "global"
-        os.environ["GEMINI_REGION"] = region
+    # 默认设置区域为 'global'，适用于 Vertex AI 的全球模型访问端点
+    region = os.environ.get("GEMINI_REGION", "global")
+    os.environ["GEMINI_REGION"] = region
 
-    # Set required VertexAI toggle
+    # 启用 Vertex AI 选项
     os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "TRUE"
     
     return project_id, region
