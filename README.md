@@ -130,8 +130,7 @@ CDN Agent/
 ├── README.md                       # 项目说明文档
 ├── requirements.txt                # 运行依赖
 ├── GEMINI.md                       # 开发指导手册与故障排查知识库
-├── cdn agent requirement.txt       # 团队业务原始需求定义 (中文)
-├── Xiaomi gcp cdn agent workflow.docx # 业务逻辑工作流文档
+
 │
 ├── cdn_agent_app/                  # ADK Web 容器默认加载的目标包
 │   ├── __init__.py
